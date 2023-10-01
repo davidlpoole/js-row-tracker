@@ -9,25 +9,28 @@
   <body>
     <div class="app">
       <div class="row">
-        <input type="text" id="farm" placeholder="Farm" />
-        <input type="text" id="patch" placeholder="Patch" />
+        <input type="date" id="date" />
       </div>
       <div class="row">
-        <input type="text" id="row" placeholder="Row number" />
-        <button id="rowPrev">-</button>
-        <button id="rowNext">+</button>
+        <input type="text" id="farm" placeholder="Farm" tabindex="1" />
+        <input type="text" id="patch" placeholder="Patch" tabindex="2" />
       </div>
       <div class="row">
-        <input type="text" id="vines" placeholder="Vine count" />
-        <button>-</button>
-        <button>+</button>
+        <input type="text" id="row" placeholder="Row number" tabindex="3" />
+        <button id="rowPrev" tabindex="8">-</button>
+        <button id="rowNext" tabindex="9">+</button>
       </div>
       <div class="row">
-        <input type="text" id="puller" placeholder="Puller" />
-        <input type="text" id="roller" placeholder="Roller" />
+        <input type="text" id="vines" placeholder="Vine count" tabindex="4" />
+        <button tabindex="10">-</button>
+        <button tabindex="11">+</button>
       </div>
       <div class="row">
-        <button type="submit" id="save">Save</button>
+        <input type="text" id="puller" placeholder="Puller" tabindex="5" />
+        <input type="text" id="roller" placeholder="Roller" tabindex="6" />
+      </div>
+      <div class="row">
+        <button type="submit" id="save" tabindex="7">Save</button>
       </div>
       <div class="row" style="display: flex">
         <div id="pullers" style="flex-grow: 1"></div>

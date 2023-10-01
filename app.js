@@ -3,23 +3,35 @@
 function app() {
   const data = [
     {
+      date: '2023-10-01',
       farm: 'GRT',
-      patch: 'Patch 1',
+      patch: '1',
       row: '1',
       vines: '50',
       puller: 'B',
       roller: 'x',
     },
     {
+      date: '2023-10-01',
       farm: 'GRT',
-      patch: 'Patch 1',
+      patch: '1',
       row: '2',
       vines: '52',
       puller: 'P',
       roller: '-',
     },
+    {
+      date: '2023-10-01',
+      farm: 'Lanteri',
+      patch: '9',
+      row: '10',
+      vines: '20',
+      puller: 'P',
+      roller: 'x',
+    },
   ]
 
+  document.getElementById('date').valueAsDate = new Date()
   makeTable(data)
 
   const inputs = document.getElementsByTagName('input')
