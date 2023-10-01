@@ -36,3 +36,7 @@ th,
 td {
   border: 1px solid grey;
 }
+
+.input-action {
+  width: 5rem;
+}

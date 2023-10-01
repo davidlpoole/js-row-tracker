@@ -32,40 +32,47 @@ function app() {
   ]
 
   document.getElementById('date').valueAsDate = new Date()
-  makeTable(data)
+  displayData(data)
+  appendList('pullers', data, 'puller')
+  appendList('rollers', data, 'roller')
 
   const inputs = document.getElementsByTagName('input')
-
-  // const btnNext = document.getElementById('next')
-  // btnNext.onclick = () => {
-  //   const record = nextRow(inputs)
-  //   data.push(record)
-  //   displayData(data)
-  // }
 
   const btnSave = document.getElementById('save')
   btnSave.onclick = () => {
     const record = save(inputs)
     reset(inputs)
     data.push(record)
-    // displayData(data)
     appendList('pullers', data, 'puller')
     appendList('rollers', data, 'roller')
-    makeTable(data)
+    displayData(data)
+  }
+
+  function action(inputId, actionId) {
+    const input = document.getElementById(inputId)
+    switch (actionId) {
+      case 'inc':
+        input.value++
+        break
+      case 'dec':
+        input.value > 1 ? input.value-- : (input.value = 1)
+        break
+
+      default:
+        alert('action not found')
+        break
+    }
+  }
+
+  const inputActions = document.getElementsByClassName('input-action')
+  for (let i = 0; i < inputActions.length; i++) {
+    inputActions[i].onclick = (e) => {
+      action(e.target.dataset.input, e.target.dataset.action)
+    }
   }
 }
 
-// function displayData(data) {
-//   const results = document.getElementById('results')
-//   results.replaceChildren()
-//   const ul = results.appendChild(document.createElement('ul'))
-//   data.forEach((element) => {
-//     const li = ul.appendChild(document.createElement('li'))
-//     li.innerHTML = JSON.stringify(element)
-//   })
-// }
-
-function makeTable(data) {
+function displayData(data) {
   console.log(data)
   const headings = Object.keys(data[0])
   const results = document.getElementById('results')
@@ -114,18 +121,5 @@ function reset(inputs) {
     if (toReset.includes(inputs[i].id)) inputs[i].value = ''
   }
 }
-
-// function nextRow(inputs) {
-//   const record = save(inputs)
-//   const resetIds = ['puller', 'roller1', 'roller2']
-//   for (let i = 0; i < inputs.length; i++) {
-//     if (resetIds.includes(inputs[i].id)) {
-//       inputs[i].value = ''
-//     } else if (inputs[i].id === 'row') {
-//       inputs[i].value++
-//     }
-//   }
-//   return record
-// }
 
 app()
