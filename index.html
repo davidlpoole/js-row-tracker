@@ -11,19 +11,29 @@
       <input type="text" id="farm" placeholder="Farm" />
       <input type="text" id="patch" placeholder="Patch" />
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
-        <input type="number" id="row" placeholder="Row" />
+        <input type="number" id="row" placeholder="Row number" />
+        <button id="rowPrev">Prev</button>
+        <button id="rowNext">Next</button>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
+        <input type="number" id="vines" placeholder="Vine count" />
         <button>Prev</button>
         <button>Next</button>
       </div>
-      <input type="text" id="puller" placeholder="Puller" />
-      <input type="text" id="roller" placeholder="Roller" />
+      <div style="display: grid; grid-template-columns: 1fr 1fr">
+        <input type="text" id="puller" placeholder="Puller" />
+        <input type="text" id="roller" placeholder="Roller" />
+      </div>
       <button type="submit" id="save">Save</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr">
+        <div id="pullers"></div>
+        <div id="rollers"></div>
+      </div>
       <!-- <button type="submit" id="next">Next ></button> -->
       <!-- <button type="submit" id="prev">< Prev</button> -->
     </div>
-    <div id="pullers"></div>
-    <div id="rollers"></div>
-    <div id="results"></div>
+
+    <table id="results"></table>
   </body>
   <script type="module" src="app.js"></script>
 </html>

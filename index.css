@@ -7,3 +7,14 @@
 .app {
   display: grid;
 }
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+th,
+td {
+  border: 1px solid grey;
+}

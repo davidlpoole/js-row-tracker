@@ -17,20 +17,41 @@ function app() {
     const record = save(inputs)
     reset(inputs)
     data.push(record)
-    displayData(data)
+    // displayData(data)
     appendList('pullers', data, 'puller')
     appendList('rollers', data, 'roller')
+    makeTable(data)
   }
 }
 
-function displayData(data) {
+// function displayData(data) {
+//   const results = document.getElementById('results')
+//   results.replaceChildren()
+//   const ul = results.appendChild(document.createElement('ul'))
+//   data.forEach((element) => {
+//     const li = ul.appendChild(document.createElement('li'))
+//     li.innerHTML = JSON.stringify(element)
+//   })
+// }
+
+function makeTable(data) {
+  console.table(data)
+  const headings = Object.keys(data[0])
   const results = document.getElementById('results')
   results.replaceChildren()
-  const ul = results.appendChild(document.createElement('ul'))
-  data.forEach((element) => {
-    const li = ul.appendChild(document.createElement('li'))
-    li.innerHTML = JSON.stringify(element)
-  })
+  const tr = results.appendChild(document.createElement('tr'))
+  for (const heading of headings) {
+    const th = tr.appendChild(document.createElement('th'))
+    th.innerText = heading[0].toUpperCase() + heading.slice(1)
+  }
+
+  for (const row of data) {
+    const tr = results.appendChild(document.createElement('tr'))
+    for (const key in row) {
+      const td = tr.appendChild(document.createElement('td'))
+      td.innerHTML = row[key]
+    }
+  }
 }
 
 function appendList(parentId, data, itemId) {
@@ -57,8 +78,9 @@ function save(inputs) {
 }
 
 function reset(inputs) {
+  const toReset = ['puller', 'roller']
   for (let i = 0; i < inputs.length; i++) {
-    inputs[i].value = ''
+    if (toReset.includes(inputs[i].id)) inputs[i].value = ''
   }
 }
 
