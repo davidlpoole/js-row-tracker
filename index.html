@@ -8,24 +8,28 @@
   </head>
   <body>
     <div class="app">
-      <input type="text" id="farm" placeholder="Farm" />
-      <input type="text" id="patch" placeholder="Patch" />
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
-        <input type="number" id="row" placeholder="Row number" />
-        <button id="rowPrev">Prev</button>
-        <button id="rowNext">Next</button>
+      <div class="row"><input type="text" id="farm" placeholder="Farm" /></div>
+      <div class="row">
+        <input type="text" id="patch" placeholder="Patch" />
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
-        <input type="number" id="vines" placeholder="Vine count" />
-        <button>Prev</button>
-        <button>Next</button>
+      <div class="row">
+        <input type="text" id="row" placeholder="Row number" />
+        <button id="rowPrev">-</button>
+        <button id="rowNext">+</button>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr">
+      <div class="row">
+        <input type="text" id="vines" placeholder="Vine count" />
+        <button>-</button>
+        <button>+</button>
+      </div>
+      <div class="row">
         <input type="text" id="puller" placeholder="Puller" />
         <input type="text" id="roller" placeholder="Roller" />
       </div>
-      <button type="submit" id="save">Save</button>
-      <div style="display: grid; grid-template-columns: 1fr 1fr">
+      <div class="row">
+        <button type="submit" id="save">Save</button>
+      </div>
+      <div>
         <div id="pullers"></div>
         <div id="rollers"></div>
       </div>
