@@ -1,7 +1,26 @@
 'use strict'
 
 function app() {
-  const data = []
+  const data = [
+    {
+      farm: 'GRT',
+      patch: 'Patch 1',
+      row: '1',
+      vines: '50',
+      puller: 'B',
+      roller: 'x',
+    },
+    {
+      farm: 'GRT',
+      patch: 'Patch 1',
+      row: '2',
+      vines: '52',
+      puller: 'P',
+      roller: '-',
+    },
+  ]
+
+  makeTable(data)
 
   const inputs = document.getElementsByTagName('input')
 
@@ -35,7 +54,7 @@ function app() {
 // }
 
 function makeTable(data) {
-  console.table(data)
+  console.log(data)
   const headings = Object.keys(data[0])
   const results = document.getElementById('results')
   results.replaceChildren()

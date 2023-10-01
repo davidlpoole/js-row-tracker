@@ -8,8 +8,8 @@
   </head>
   <body>
     <div class="app">
-      <div class="row"><input type="text" id="farm" placeholder="Farm" /></div>
       <div class="row">
+        <input type="text" id="farm" placeholder="Farm" />
         <input type="text" id="patch" placeholder="Patch" />
       </div>
       <div class="row">
@@ -29,15 +29,15 @@
       <div class="row">
         <button type="submit" id="save">Save</button>
       </div>
-      <div>
-        <div id="pullers"></div>
-        <div id="rollers"></div>
+      <div class="row" style="display: flex">
+        <div id="pullers" style="flex-grow: 1"></div>
+        <div id="rollers" style="flex-grow: 1"></div>
       </div>
       <!-- <button type="submit" id="next">Next ></button> -->
       <!-- <button type="submit" id="prev">< Prev</button> -->
-    </div>
 
-    <table id="results"></table>
+      <table id="results"></table>
+    </div>
   </body>
   <script type="module" src="app.js"></script>
 </html>

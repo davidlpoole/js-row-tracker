@@ -12,10 +12,11 @@ body {
 .app {
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
 }
 
 div > .row {
-  padding: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 button,
