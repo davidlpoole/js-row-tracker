@@ -2,9 +2,13 @@
 
 function app() {
   const data = []
+
+  const inputs = document.getElementsByTagName('input')
   const btnSave = document.getElementById('save')
+
   btnSave.onclick = () => {
-    const record = save()
+    const record = save(inputs)
+    reset(inputs)
     data.push(record)
     displayData(data)
   }
@@ -15,14 +19,18 @@ function displayData(data) {
   results.innerHTML = JSON.stringify(data)
 }
 
-function save() {
+function save(inputs) {
   const temp = {}
-  const inputs = document.getElementsByTagName('input')
   for (let i = 0; i < inputs.length; i++) {
     temp[inputs[i].id] = inputs[i].value
-    inputs[i].value = ''
   }
   return temp
+}
+
+function reset(inputs) {
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = ''
+  }
 }
 
 app()
