@@ -19,7 +19,7 @@ div > .row {
   padding-bottom: 0.5rem;
 }
 
-button,
+.row > button,
 input {
   font-size: 5vmin;
   min-width: 10%;
