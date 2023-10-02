@@ -1,46 +1,6 @@
 'use strict'
 
-function app() {
-  // set up some initial data
-  const data = [
-    {
-      date: '2023-10-01',
-      farm: 'GRT',
-      patch: '1',
-      row: '1',
-      vines: '50',
-      puller: 'B',
-      roller: 'x',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'GRT',
-      patch: '1',
-      row: '2',
-      vines: '52',
-      puller: 'P',
-      roller: '-',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'Lanteri',
-      patch: '9',
-      row: '10',
-      vines: '20',
-      puller: 'P',
-      roller: 'x',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'Lanteri',
-      patch: '9',
-      row: '11',
-      vines: '22',
-      puller: 'V',
-      roller: 'x',
-    },
-  ]
-
+function app(data) {
   // display the initial data
   displayData(data)
   appendList('pullers', data, 'puller')
@@ -119,6 +79,7 @@ function appendList(parentId, data, itemId) {
     li.innerHTML = `${element} (${getPullerSummary(data, itemId, element)})`
   })
 }
+
 function getPullerSummary(data, heading, value) {
   const filtered = data.filter((row) => row[heading] === value)
   return filtered.reduce((a, row) => a + parseFloat(row.vines), 0)
@@ -160,5 +121,45 @@ function action(inputId, actionId) {
   }
 }
 
+// set up some initial data
+const data = [
+  {
+    date: '2023-10-01',
+    farm: 'GRT',
+    patch: '1',
+    row: '1',
+    vines: '50',
+    puller: 'B',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'GRT',
+    patch: '1',
+    row: '2',
+    vines: '52',
+    puller: 'P',
+    roller: '-',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'Lanteri',
+    patch: '9',
+    row: '10',
+    vines: '20',
+    puller: 'P',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'Lanteri',
+    patch: '9',
+    row: '11',
+    vines: '22',
+    puller: 'V',
+    roller: 'x',
+  },
+]
+
 // run the app
-app()
+app(data)
