@@ -12,10 +12,19 @@ function app(data) {
   // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
 
+  for (const input of inputs) {
+    input.addEventListener('input', (e) => {
+      const filteredData = filterData(data, getInputObj(inputs))
+      displayData(filteredData)
+    })
+  }
+
+  // TODO: create object from current selections to filter data
+
   // get the save button and add a click handler
   const btnSave = document.getElementById('save')
   btnSave.onclick = () => {
-    const record = save(inputs)
+    const record = getInputObj(inputs)
     reset(inputs)
     data.push(record)
     appendList('pullers', data, 'puller')
@@ -32,15 +41,39 @@ function app(data) {
   }
 }
 
+function getFilterObj(target) {
+  const obj = { [target.id]: target.value }
+  return obj
+}
+
+function filterData(data, filterObj) {
+  const filterKeys = ['farm', 'patch', 'puller', 'roller']
+
+  for (const key in filterObj) {
+    filterKeys.includes(key) ? null : delete filterObj[key]
+  }
+
+  const filteredData = data.filter((row) => {
+    return (
+      //refactor this
+      row.farm.toUpperCase().includes(filterObj.farm.toUpperCase()) &&
+      row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
+      row.puller.toUpperCase().includes(filterObj.puller.toUpperCase()) &&
+      row.roller.toUpperCase().includes(filterObj.roller.toUpperCase())
+    )
+  })
+  return filteredData
+}
+
 // display the data table
 function displayData(data) {
-  console.log(data)
-  // get heading text from first row of data
-  const headings = Object.keys(data[0])
-
   // get the output element and clear it
   const results = document.getElementById('results')
   results.replaceChildren()
+
+  // get heading text from first row of data
+  if (data.length === 0) return
+  const headings = Object.keys(data[0])
 
   // add the table headings
   const tr = results.appendChild(document.createElement('tr'))
@@ -86,7 +119,7 @@ function getPullerSummary(data, heading, value) {
 }
 
 // save the current input values into data
-function save(inputs) {
+function getInputObj(inputs) {
   const record = {}
   for (let i = 0; i < inputs.length; i++) {
     record[inputs[i].id] = inputs[i].value
