@@ -2,7 +2,6 @@
 
 function app(data) {
   // display the initial data
-  displayData(data)
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
 
@@ -11,25 +10,24 @@ function app(data) {
 
   // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
+  displayData(data, inputs)
 
+  // if input changes, filter the data and display
   for (const input of inputs) {
     input.addEventListener('input', (e) => {
-      const filteredData = filterData(data, getInputObj(inputs))
-      displayData(filteredData)
+      displayData(data, inputs)
     })
   }
-
-  // TODO: create object from current selections to filter data
 
   // get the save button and add a click handler
   const btnSave = document.getElementById('save')
   btnSave.onclick = () => {
     const record = getInputObj(inputs)
-    reset(inputs)
     data.push(record)
     appendList('pullers', data, 'puller')
     appendList('rollers', data, 'roller')
-    displayData(data)
+    displayData(data, inputs)
+    reset(inputs)
   }
 
   // add click handlers to the +/- buttons
@@ -47,16 +45,18 @@ function getFilterObj(target) {
 }
 
 function filterData(data, filterObj) {
-  const filterKeys = ['farm', 'patch', 'puller', 'roller']
+  // const filterKeys = ['date', 'farm', 'row', 'patch', 'puller', 'roller']
 
-  for (const key in filterObj) {
-    filterKeys.includes(key) ? null : delete filterObj[key]
-  }
+  // for (const key in filterObj) {
+  //   filterKeys.includes(key) ? null : delete filterObj[key]
+  // }
 
   const filteredData = data.filter((row) => {
     return (
-      //refactor this
+      // TODO: refactor this
+      row.date.toUpperCase().includes(filterObj.date.toUpperCase()) &&
       row.farm.toUpperCase().includes(filterObj.farm.toUpperCase()) &&
+      row.row.toUpperCase().includes(filterObj.row.toUpperCase()) &&
       row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
       row.puller.toUpperCase().includes(filterObj.puller.toUpperCase()) &&
       row.roller.toUpperCase().includes(filterObj.roller.toUpperCase())
@@ -66,10 +66,13 @@ function filterData(data, filterObj) {
 }
 
 // display the data table
-function displayData(data) {
+function displayData(allData, inputs) {
   // get the output element and clear it
   const results = document.getElementById('results')
   results.replaceChildren()
+
+  // filter the data based on selections
+  const data = filterData(allData, getInputObj(inputs))
 
   // get heading text from first row of data
   if (data.length === 0) return
@@ -191,6 +194,24 @@ const data = [
     vines: '22',
     puller: 'V',
     roller: 'x',
+  },
+  {
+    date: '2023-10-02',
+    farm: 'Lanteri',
+    patch: '10',
+    row: '11',
+    vines: '22',
+    puller: 'V',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-02',
+    farm: 'Lanteri',
+    patch: '10',
+    row: '12',
+    vines: '22',
+    puller: 'P',
+    roller: '-',
   },
 ]
 
