@@ -10,7 +10,6 @@ function app(data) {
 
   // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
-  console.log(inputs)
   displayData(data, inputs)
 
   // if input changes, filter the data and display
@@ -111,25 +110,31 @@ function appendList(parentId, data, itemId) {
   // get the parent element, clear it, append a ul element
   const parent = document.getElementById(parentId)
   parent.replaceChildren()
-  const ul = parent.appendChild(document.createElement('ul'))
-  ul.innerHTML = `<b>${itemId[0].toUpperCase() + itemId.slice(1)} totals</b>`
+  const div = parent.appendChild(document.createElement('div'))
+  div.innerHTML = `<b>${itemId[0].toUpperCase() + itemId.slice(1)}s</b><br />`
 
   // organize the data
   const list = data.map((item) => item[itemId])
   const unique = list.filter((v, i, a) => a.indexOf(v) == i)
   const sorted = unique.toSorted((a, b) => a > b)
 
-  // add <li> for each list item
+  // add button for each list item
   sorted.forEach((element) => {
-    const li = ul.appendChild(document.createElement('li'))
-    // li.innerHTML = element
-    li.innerHTML = `${element} (${getPullerSummary(data, itemId, element)})`
+    const button = document.createElement('button')
+    button.onclick = () => setValue(itemId, element)
+    button.innerHTML = `${element} (${getSummary(data, itemId, element)})`
+    div.appendChild(button)
   })
 }
 
-function getPullerSummary(data, heading, value) {
+function getSummary(data, heading, value) {
   const filtered = data.filter((row) => row[heading] === value)
   return filtered.reduce((a, row) => a + parseFloat(row.vines), 0)
+}
+
+function setValue(inputId, value) {
+  const el = document.getElementById(inputId)
+  el.value = value
 }
 
 // return the current input values as an object
