@@ -1,6 +1,7 @@
 'use strict'
 
 function app() {
+  // set up some initial data
   const data = [
     {
       date: '2023-10-01',
@@ -29,15 +30,29 @@ function app() {
       puller: 'P',
       roller: 'x',
     },
+    {
+      date: '2023-10-01',
+      farm: 'Lanteri',
+      patch: '9',
+      row: '11',
+      vines: '22',
+      puller: 'V',
+      roller: 'x',
+    },
   ]
 
-  document.getElementById('date').valueAsDate = new Date()
+  // display the initial data
   displayData(data)
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
 
+  // populate date picker with todays date
+  document.getElementById('date').valueAsDate = new Date()
+
+  // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
 
+  // get the save button and add a click handler
   const btnSave = document.getElementById('save')
   btnSave.onclick = () => {
     const record = save(inputs)
@@ -48,22 +63,7 @@ function app() {
     displayData(data)
   }
 
-  function action(inputId, actionId) {
-    const input = document.getElementById(inputId)
-    switch (actionId) {
-      case 'inc':
-        input.value++
-        break
-      case 'dec':
-        input.value > 1 ? input.value-- : (input.value = 1)
-        break
-
-      default:
-        alert('action not found')
-        break
-    }
-  }
-
+  // add click handlers to the +/- buttons
   const inputActions = document.getElementsByClassName('input-action')
   for (let i = 0; i < inputActions.length; i++) {
     inputActions[i].onclick = (e) => {
@@ -72,17 +72,24 @@ function app() {
   }
 }
 
+// display the data table
 function displayData(data) {
   console.log(data)
+  // get heading text from first row of data
   const headings = Object.keys(data[0])
+
+  // get the output element and clear it
   const results = document.getElementById('results')
   results.replaceChildren()
+
+  // add the table headings
   const tr = results.appendChild(document.createElement('tr'))
   for (const heading of headings) {
     const th = tr.appendChild(document.createElement('th'))
     th.innerText = heading[0].toUpperCase() + heading.slice(1)
   }
 
+  // add the table data rows
   for (const row of data) {
     const tr = results.appendChild(document.createElement('tr'))
     for (const key in row) {
@@ -92,21 +99,26 @@ function displayData(data) {
   }
 }
 
+// add an unordered list
 function appendList(parentId, data, itemId) {
+  // get the parent element, clear it, append a ul element
   const parent = document.getElementById(parentId)
   parent.replaceChildren()
   const ul = parent.appendChild(document.createElement('ul'))
 
+  // organize the data
   const list = data.map((item) => item[itemId])
   const unique = list.filter((v, i, a) => a.indexOf(v) == i)
   const sorted = unique.toSorted((a, b) => a > b)
 
+  // add <li> for each list item
   sorted.forEach((element) => {
     const li = ul.appendChild(document.createElement('li'))
     li.innerHTML = element
   })
 }
 
+// save the current input values into data
 function save(inputs) {
   const record = {}
   for (let i = 0; i < inputs.length; i++) {
@@ -115,6 +127,7 @@ function save(inputs) {
   return record
 }
 
+// clear the inputs (only if the input is in the list of id's)
 function reset(inputs) {
   const toReset = ['puller', 'roller']
   for (let i = 0; i < inputs.length; i++) {
@@ -122,4 +135,24 @@ function reset(inputs) {
   }
 }
 
+// use the buttons data attributes to update a text input value
+function action(inputId, actionId) {
+  const input = document.getElementById(inputId)
+  switch (actionId) {
+    case 'inc':
+      input.value++
+      break
+    case 'dec':
+      // don't decrease lower than MIN
+      const MIN = 1
+      input.value > MIN ? input.value-- : (input.value = MIN)
+      break
+
+    default:
+      alert('Error: invalid action')
+      break
+  }
+}
+
+// run the app
 app()
