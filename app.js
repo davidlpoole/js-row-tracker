@@ -105,6 +105,7 @@ function appendList(parentId, data, itemId) {
   const parent = document.getElementById(parentId)
   parent.replaceChildren()
   const ul = parent.appendChild(document.createElement('ul'))
+  ul.innerHTML = `<b>${itemId[0].toUpperCase() + itemId.slice(1)} totals</b>`
 
   // organize the data
   const list = data.map((item) => item[itemId])
@@ -114,8 +115,13 @@ function appendList(parentId, data, itemId) {
   // add <li> for each list item
   sorted.forEach((element) => {
     const li = ul.appendChild(document.createElement('li'))
-    li.innerHTML = element
+    // li.innerHTML = element
+    li.innerHTML = `${element} (${getPullerSummary(data, itemId, element)})`
   })
+}
+function getPullerSummary(data, heading, value) {
+  const filtered = data.filter((row) => row[heading] === value)
+  return filtered.reduce((a, row) => a + parseFloat(row.vines), 0)
 }
 
 // save the current input values into data
