@@ -9,16 +9,29 @@
   <body>
     <div class="app">
       <div class="row">
-        <input type="date" id="date" />
+        <input type="date" id="date" required />
       </div>
       <div class="row">
-        <input type="text" id="farm" placeholder="Farm" tabindex="1" />
-        <input type="text" id="patch" placeholder="Patch" tabindex="2" />
+        <input type="text" id="farm" placeholder="Farm" tabindex="1" required />
+        <input
+          type="text"
+          id="patch"
+          placeholder="Patch"
+          tabindex="2"
+          required
+        />
       </div>
       <div class="row">
         <label
           >R:
-          <input type="text" id="row" placeholder="Row number" tabindex="3" />
+          <input
+            type="number"
+            id="row"
+            placeholder="Row number"
+            tabindex="3"
+            min="1"
+            required
+          />
         </label>
         <button
           id="rowDec"
@@ -42,7 +55,14 @@
       <div class="row">
         <label
           >V:
-          <input type="text" id="vines" placeholder="Vine count" tabindex="4" />
+          <input
+            type="number"
+            id="vines"
+            placeholder="Vine count"
+            tabindex="4"
+            min="1"
+            required
+          />
         </label>
         <button
           id="vineDec"
@@ -64,8 +84,20 @@
         </button>
       </div>
       <div class="row">
-        <input type="text" id="puller" placeholder="Puller" tabindex="5" />
-        <input type="text" id="roller" placeholder="Roller" tabindex="6" />
+        <input
+          type="text"
+          id="puller"
+          placeholder="Puller"
+          tabindex="5"
+          required
+        />
+        <input
+          type="text"
+          id="roller"
+          placeholder="Roller"
+          tabindex="6"
+          required
+        />
       </div>
       <div class="row">
         <button type="submit" id="save" tabindex="7">Save</button>

@@ -10,6 +10,7 @@ function app(data) {
 
   // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
+  console.log(inputs)
   displayData(data, inputs)
 
   // if input changes, filter the data and display
@@ -21,14 +22,7 @@ function app(data) {
 
   // get the save button and add a click handler
   const btnSave = document.getElementById('save')
-  btnSave.onclick = () => {
-    const record = getInputObj(inputs)
-    data.push(record)
-    appendList('pullers', data, 'puller')
-    appendList('rollers', data, 'roller')
-    displayData(data, inputs)
-    reset(inputs)
-  }
+  btnSave.onclick = () => handleSave(data, inputs)
 
   // add click handlers to the +/- buttons
   const inputActions = document.getElementsByClassName('input-action')
@@ -38,6 +32,22 @@ function app(data) {
       displayData(data, inputs)
     }
   }
+}
+
+function handleSave(data, inputs) {
+  const record = getInputObj(inputs)
+
+  // check required fields
+  for (const input of inputs) {
+    const isValid = input.reportValidity()
+    if (!isValid) return
+  }
+
+  data.push(record)
+  appendList('pullers', data, 'puller')
+  appendList('rollers', data, 'roller')
+  displayData(data, inputs)
+  reset(inputs)
 }
 
 function getFilterObj(target) {
@@ -122,7 +132,7 @@ function getPullerSummary(data, heading, value) {
   return filtered.reduce((a, row) => a + parseFloat(row.vines), 0)
 }
 
-// save the current input values into data
+// return the current input values as an object
 function getInputObj(inputs) {
   const record = {}
   for (let i = 0; i < inputs.length; i++) {
