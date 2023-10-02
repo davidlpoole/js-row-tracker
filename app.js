@@ -35,6 +35,7 @@ function app(data) {
   for (let i = 0; i < inputActions.length; i++) {
     inputActions[i].onclick = (e) => {
       action(e.target.dataset.input, e.target.dataset.action)
+      displayData(data, inputs)
     }
   }
 }
