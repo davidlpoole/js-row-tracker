@@ -1,48 +1,7 @@
 'use strict'
 
-function app() {
-  // set up some initial data
-  const data = [
-    {
-      date: '2023-10-01',
-      farm: 'GRT',
-      patch: '1',
-      row: '1',
-      vines: '50',
-      puller: 'B',
-      roller: 'x',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'GRT',
-      patch: '1',
-      row: '2',
-      vines: '52',
-      puller: 'P',
-      roller: '-',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'Lanteri',
-      patch: '9',
-      row: '10',
-      vines: '20',
-      puller: 'P',
-      roller: 'x',
-    },
-    {
-      date: '2023-10-01',
-      farm: 'Lanteri',
-      patch: '9',
-      row: '11',
-      vines: '22',
-      puller: 'V',
-      roller: 'x',
-    },
-  ]
-
+function app(data) {
   // display the initial data
-  displayData(data)
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
 
@@ -51,16 +10,24 @@ function app() {
 
   // get an array of all input text boxes
   const inputs = document.getElementsByTagName('input')
+  displayData(data, inputs)
+
+  // if input changes, filter the data and display
+  for (const input of inputs) {
+    input.addEventListener('input', (e) => {
+      displayData(data, inputs)
+    })
+  }
 
   // get the save button and add a click handler
   const btnSave = document.getElementById('save')
   btnSave.onclick = () => {
-    const record = save(inputs)
-    reset(inputs)
+    const record = getInputObj(inputs)
     data.push(record)
     appendList('pullers', data, 'puller')
     appendList('rollers', data, 'roller')
-    displayData(data)
+    displayData(data, inputs)
+    reset(inputs)
   }
 
   // add click handlers to the +/- buttons
@@ -72,15 +39,44 @@ function app() {
   }
 }
 
-// display the data table
-function displayData(data) {
-  console.log(data)
-  // get heading text from first row of data
-  const headings = Object.keys(data[0])
+function getFilterObj(target) {
+  const obj = { [target.id]: target.value }
+  return obj
+}
 
+function filterData(data, filterObj) {
+  // const filterKeys = ['date', 'farm', 'row', 'patch', 'puller', 'roller']
+
+  // for (const key in filterObj) {
+  //   filterKeys.includes(key) ? null : delete filterObj[key]
+  // }
+
+  const filteredData = data.filter((row) => {
+    return (
+      // TODO: refactor this
+      row.date.toUpperCase().includes(filterObj.date.toUpperCase()) &&
+      row.farm.toUpperCase().includes(filterObj.farm.toUpperCase()) &&
+      row.row.toUpperCase().includes(filterObj.row.toUpperCase()) &&
+      row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
+      row.puller.toUpperCase().includes(filterObj.puller.toUpperCase()) &&
+      row.roller.toUpperCase().includes(filterObj.roller.toUpperCase())
+    )
+  })
+  return filteredData
+}
+
+// display the data table
+function displayData(allData, inputs) {
   // get the output element and clear it
   const results = document.getElementById('results')
   results.replaceChildren()
+
+  // filter the data based on selections
+  const data = filterData(allData, getInputObj(inputs))
+
+  // get heading text from first row of data
+  if (data.length === 0) return
+  const headings = Object.keys(data[0])
 
   // add the table headings
   const tr = results.appendChild(document.createElement('tr'))
@@ -119,13 +115,14 @@ function appendList(parentId, data, itemId) {
     li.innerHTML = `${element} (${getPullerSummary(data, itemId, element)})`
   })
 }
+
 function getPullerSummary(data, heading, value) {
   const filtered = data.filter((row) => row[heading] === value)
   return filtered.reduce((a, row) => a + parseFloat(row.vines), 0)
 }
 
 // save the current input values into data
-function save(inputs) {
+function getInputObj(inputs) {
   const record = {}
   for (let i = 0; i < inputs.length; i++) {
     record[inputs[i].id] = inputs[i].value
@@ -160,5 +157,63 @@ function action(inputId, actionId) {
   }
 }
 
+// set up some initial data
+const data = [
+  {
+    date: '2023-10-01',
+    farm: 'GRT',
+    patch: '1',
+    row: '1',
+    vines: '50',
+    puller: 'B',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'GRT',
+    patch: '1',
+    row: '2',
+    vines: '52',
+    puller: 'P',
+    roller: '-',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'Lanteri',
+    patch: '9',
+    row: '10',
+    vines: '20',
+    puller: 'P',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-01',
+    farm: 'Lanteri',
+    patch: '9',
+    row: '11',
+    vines: '22',
+    puller: 'V',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-02',
+    farm: 'Lanteri',
+    patch: '10',
+    row: '11',
+    vines: '22',
+    puller: 'V',
+    roller: 'x',
+  },
+  {
+    date: '2023-10-02',
+    farm: 'Lanteri',
+    patch: '10',
+    row: '12',
+    vines: '22',
+    puller: 'P',
+    roller: '-',
+  },
+]
+
 // run the app
-app()
+app(data)
