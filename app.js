@@ -1,21 +1,24 @@
 'use strict'
 
+const today = new Date().toJSON().split('T')[0]
+const inputs = document.getElementsByTagName('input')
+
 function app(data) {
   // display the initial data
+  appendList('farms', data, 'farm')
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
 
   // populate date picker with todays date
-  document.getElementById('date').valueAsDate = new Date()
+  document.getElementById('date').value = today
 
   // get an array of all input text boxes
-  const inputs = document.getElementsByTagName('input')
-  displayData(data, inputs)
+  displayData(data)
 
   // if input changes, filter the data and display
   for (const input of inputs) {
     input.addEventListener('input', (e) => {
-      displayData(data, inputs)
+      displayData(data)
     })
   }
 
@@ -28,7 +31,8 @@ function app(data) {
   for (let i = 0; i < inputActions.length; i++) {
     inputActions[i].onclick = (e) => {
       action(e.target.dataset.input, e.target.dataset.action)
-      displayData(data, inputs)
+      displayData(data)
+      reset(inputs)
     }
   }
 }
@@ -43,9 +47,10 @@ function handleSave(data, inputs) {
   }
 
   data.push(record)
+  // appendList('farms', data, 'farm')
+  displayData(data)
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
-  displayData(data, inputs)
   reset(inputs)
 }
 
@@ -66,8 +71,8 @@ function filterData(data, filterObj) {
       // TODO: refactor this
       row.date.toUpperCase().includes(filterObj.date.toUpperCase()) &&
       row.farm.toUpperCase().includes(filterObj.farm.toUpperCase()) &&
-      row.row.toUpperCase().includes(filterObj.row.toUpperCase()) &&
-      row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
+      // row.row.toUpperCase().includes(filterObj.row.toUpperCase()) &&
+      // row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
       row.puller.toUpperCase().includes(filterObj.puller.toUpperCase()) &&
       row.roller.toUpperCase().includes(filterObj.roller.toUpperCase())
     )
@@ -76,7 +81,7 @@ function filterData(data, filterObj) {
 }
 
 // display the data table
-function displayData(allData, inputs) {
+function displayData(allData) {
   // get the output element and clear it
   const results = document.getElementById('results')
   results.replaceChildren()
@@ -94,15 +99,20 @@ function displayData(allData, inputs) {
     const th = tr.appendChild(document.createElement('th'))
     th.innerText = heading[0].toUpperCase() + heading.slice(1)
   }
-
+  let sum = 0
   // add the table data rows
   for (const row of data) {
     const tr = results.appendChild(document.createElement('tr'))
     for (const key in row) {
+      if (key === 'vines') sum += parseFloat(row[key])
       const td = tr.appendChild(document.createElement('td'))
       td.innerHTML = row[key]
     }
   }
+  const sumRow = results.appendChild(document.createElement('tr'))
+  const sumTd = results.appendChild(document.createElement('td'))
+  sumTd.colSpan = 7
+  sumTd.innerHTML = `Total vines: ${sum}`
 }
 
 // add an unordered list
@@ -121,9 +131,34 @@ function appendList(parentId, data, itemId) {
   // add button for each list item
   sorted.forEach((element) => {
     const button = document.createElement('button')
-    button.onclick = () => setValue(itemId, element)
-    button.innerHTML = `${element} (${getSummary(data, itemId, element)})`
+    button.onclick = () => {
+      setValue(itemId, element)
+      displayData(data)
+    }
+    // button.innerHTML = `${element} (${getSummary(data, itemId, element)})`
+    button.innerHTML = `${element}`
     div.appendChild(button)
+  })
+}
+
+// add an unordered list
+function appendSummary(parentId, data, itemId) {
+  // get the parent element, clear it, append a ul element
+  const parent = document.getElementById(parentId)
+  parent.replaceChildren()
+  const div = parent.appendChild(document.createElement('div'))
+  // div.innerHTML = `<b>${itemId[0].toUpperCase() + itemId.slice(1)}s</b><br />`
+
+  // organize the data
+  const list = data.map((item) => item[itemId])
+  const unique = list.filter((v, i, a) => a.indexOf(v) == i)
+  const sorted = unique.toSorted((a, b) => a > b)
+
+  // add button for each list item
+  sorted.forEach((element) => {
+    const el = document.createElement('div')
+    el.innerHTML = `${element}: ${getSummary(data, itemId, element)} vines`
+    div.appendChild(el)
   })
 }
 
@@ -176,7 +211,7 @@ function action(inputId, actionId) {
 // set up some initial data
 const data = [
   {
-    date: '2023-10-01',
+    date: today,
     farm: 'GRT',
     patch: '1',
     row: '1',
@@ -185,7 +220,7 @@ const data = [
     roller: 'x',
   },
   {
-    date: '2023-10-01',
+    date: today,
     farm: 'GRT',
     patch: '1',
     row: '2',
@@ -194,7 +229,7 @@ const data = [
     roller: '-',
   },
   {
-    date: '2023-10-01',
+    date: today,
     farm: 'Lanteri',
     patch: '9',
     row: '10',
@@ -203,7 +238,7 @@ const data = [
     roller: 'x',
   },
   {
-    date: '2023-10-01',
+    date: today,
     farm: 'Lanteri',
     patch: '9',
     row: '11',
@@ -212,7 +247,7 @@ const data = [
     roller: 'x',
   },
   {
-    date: '2023-10-02',
+    date: today,
     farm: 'Lanteri',
     patch: '10',
     row: '11',
@@ -221,7 +256,7 @@ const data = [
     roller: 'x',
   },
   {
-    date: '2023-10-02',
+    date: today,
     farm: 'Lanteri',
     patch: '10',
     row: '12',
