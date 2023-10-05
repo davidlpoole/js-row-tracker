@@ -49,6 +49,7 @@ function handleSave(data, inputs) {
   data.push(record)
   // appendList('farms', data, 'farm')
   displayData(data)
+  appendList('farms', data, 'farm')
   appendList('pullers', data, 'puller')
   appendList('rollers', data, 'roller')
   reset(inputs)
@@ -69,8 +70,9 @@ function filterData(data, filterObj) {
   const filteredData = data.filter((row) => {
     return (
       // TODO: refactor this
+      // prettier-ignore
       row.date.toUpperCase().includes(filterObj.date.toUpperCase()) &&
-      row.farm.toUpperCase().includes(filterObj.farm.toUpperCase()) &&
+      ((filterObj.farm === '') || row.farm.toUpperCase() === filterObj.farm.toUpperCase()) &&
       // row.row.toUpperCase().includes(filterObj.row.toUpperCase()) &&
       // row.patch.toUpperCase().includes(filterObj.patch.toUpperCase()) &&
       row.puller.toUpperCase().includes(filterObj.puller.toUpperCase()) &&
@@ -250,7 +252,7 @@ const data = [
     date: today,
     farm: 'Lanteri',
     patch: '10',
-    row: '11',
+    row: '12',
     vines: '22',
     puller: 'V',
     roller: 'x',
@@ -259,7 +261,7 @@ const data = [
     date: today,
     farm: 'Lanteri',
     patch: '10',
-    row: '12',
+    row: '13',
     vines: '22',
     puller: 'P',
     roller: '-',
